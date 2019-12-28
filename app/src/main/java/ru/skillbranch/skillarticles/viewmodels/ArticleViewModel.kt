@@ -15,11 +15,13 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
         subscribeOnDataSource(getArticleData()){ article, state ->
             article ?: return@subscribeOnDataSource null
             state.copy(
+                author = article.author,
                 shareLink = article.shareLink,
                 title = article.title,
                 category = article.category,
                 categoryIcon = article.categoryIcon,
-                date = article.date.format()
+                date = article.date.format(),
+                poster = article.poster
             )
         }
 
@@ -90,7 +92,7 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
         val msg = if (currentState.isLike) Notify.TextMessage("Mark is liked")
         else {
             Notify.ActionMessage(
-                "Don't like it anymore?",
+                "Don`t like it anymore",
                 "No, still like it",
                 toggleLike
             )
@@ -112,10 +114,10 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
 
         toggleBookmark()
 
-        val msg = if (currentState.isLike) Notify.TextMessage("Article is bookmarked")
+        val msg = if (currentState.isBookmark) Notify.TextMessage("Add to bookmarks")
         else {
             Notify.ActionMessage(
-                "Don't interest it anymore?",
+                "Remove from bookmarks",
                 "No, keep it",
                 toggleBookmark
             )
