@@ -43,7 +43,8 @@ class NestedScrollBehaviorBottom<T : ConstraintLayout> constructor(context: Cont
             //animate()
             //    .translationY(if (dyConsumed > 0) height.toFloat() else 0f)
                 //.duration = 200
-            child.visibility = if (dyConsumed > 0) View.VISIBLE else View.GONE
+            visibility = if (dyConsumed > 0) View.INVISIBLE else View.VISIBLE
+            translationY =if (dyConsumed > 0) height.toFloat() else 0f
         }
     }
 }
