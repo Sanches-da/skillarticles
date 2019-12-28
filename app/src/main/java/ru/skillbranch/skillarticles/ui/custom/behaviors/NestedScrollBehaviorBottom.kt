@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 
-class NestedScrollBehaviorBottom<T : ConstraintLayout> @JvmOverloads constructor(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<T>(context, attrs){
+class NestedScrollBehaviorBottom<T : ConstraintLayout> constructor(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<T>(context, attrs){
     private var height: Int = 0
 
     override fun onLayoutChild(
@@ -39,10 +39,11 @@ class NestedScrollBehaviorBottom<T : ConstraintLayout> @JvmOverloads constructor
         type: Int
     ) {
         child.apply {
-            clearAnimation()
-            animate()
-                .translationY(if (dyConsumed > 0) height.toFloat() else 0f)
-                .duration = 200
+            //clearAnimation()
+            //animate()
+            //    .translationY(if (dyConsumed > 0) height.toFloat() else 0f)
+                //.duration = 200
+            child.translationY = if (dyConsumed > 0) height.toFloat() else 0f
         }
     }
 }
