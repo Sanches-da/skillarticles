@@ -40,8 +40,8 @@ class NestedScrollBehaviorBottom<T : ConstraintLayout> constructor(context: Cont
         type: Int
     ) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-        //child.translationY = max(0f, min(child.height.toFloat(), child.translationY + dy))
-        child.translationY =if (dy > 0) child.height.toFloat() else 0f
+        //child.translationY = max(0f, min((coordinatorLayout.height-child.bottom)+child.height.toFloat(), child.translationY + dy))
+        child.translationY =if (dy > 0) (coordinatorLayout.height-child.bottom)+child.height.toFloat() else 0f
     }
 
     override fun onNestedScroll(
