@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import kotlin.math.max
 import kotlin.math.min
 
-class NestedScrollBehaviorBottom<T : ConstraintLayout> constructor(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<T>(context, attrs){
+class NestedScrollBehaviorRight<T : ConstraintLayout> constructor(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<T>(context, attrs){
 
     override fun onStartNestedScroll(
         coordinatorLayout: CoordinatorLayout,
@@ -30,7 +30,7 @@ class NestedScrollBehaviorBottom<T : ConstraintLayout> constructor(context: Cont
         type: Int
     ) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-        child.translationY = max(0f, min((coordinatorLayout.bottom-child.bottom+child.height).toFloat(), child.translationY + dy))
+        child.translationX = max(0f, min((coordinatorLayout.right-child.right+child.width).toFloat(), child.translationX + dy))
     }
 
 }

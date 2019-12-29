@@ -56,7 +56,7 @@
         android:visibility="gone"
         tools:visibility="visible"
         app:layout_dodgeInsetEdges="bottom"
-        app:layout_behavior=".ui.custom.behaviors.NestedScrollBehaviorBottom"
+        app:layout_behavior=".ui.custom.behaviors.NestedScrollBehaviorRight"
         />
 
     <ru.skillbranch.skillarticles.ui.custom.Bottombar
