@@ -1,19 +1,17 @@
 package ru.skillbranch.skillarticles.ui.custom.behaviors
 
-import android.content.Context
-import android.util.AttributeSet
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
+import ru.skillbranch.skillarticles.ui.custom.ArticleSubmenu
 import kotlin.math.max
 import kotlin.math.min
 
-class NestedScrollBehaviorRight<T : ConstraintLayout> constructor(context: Context?, attrs: AttributeSet?) : CoordinatorLayout.Behavior<T>(context, attrs){
+class SubmenuBehavior() : CoordinatorLayout.Behavior<ArticleSubmenu>(){
 
     override fun onStartNestedScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: T,
+        child: ArticleSubmenu,
         directTargetChild: View,
         target: View,
         axes: Int,
@@ -22,7 +20,7 @@ class NestedScrollBehaviorRight<T : ConstraintLayout> constructor(context: Conte
 
     override fun onNestedPreScroll(
         coordinatorLayout: CoordinatorLayout,
-        child: T,
+        child: ArticleSubmenu,
         target: View,
         dx: Int,
         dy: Int,
