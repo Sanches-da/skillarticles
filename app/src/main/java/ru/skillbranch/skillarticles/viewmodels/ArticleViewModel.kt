@@ -144,7 +144,7 @@ class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleSta
     override fun handleSearch(query: String?) {
         query ?: return
         val result = (currentState.content.firstOrNull() as? String)
-                    .indexesOf(query)
+                    .indexesOf(query, true)
                     .map { it to it + query.length }
 
         updateState { it.copy(searchQuery = query, searchResults = result) }
