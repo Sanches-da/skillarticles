@@ -1,6 +1,6 @@
 package ru.skillbranch.skillarticles.extensions
 
-fun String?.indexesOf(query: String, ignoreCase: Boolean) : List<Int>{
+fun String?.indexesOf(query: String, ignoreCase: Boolean = true) : List<Int>{
     if (this.isNullOrEmpty() || query.isEmpty()) return emptyList()
     val result: ArrayList<Int> = arrayListOf()
     var currentPosition = 0
