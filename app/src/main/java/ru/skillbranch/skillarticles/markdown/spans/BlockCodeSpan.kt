@@ -109,23 +109,24 @@ class BlockCodeSpan(
         fm ?: return 0
 
 
-
-        when (type){
-            Element.BlockCode.Type.START ->{
-                fm.ascent = (fm.ascent * 0.85f - 2 * padding).toInt()
-                fm.descent = (fm.descent * 0.85f).toInt()
-            }
-            Element.BlockCode.Type.END ->{
-                fm.ascent = (fm.ascent * 0.85f).toInt()
-                fm.descent = (fm.descent * 0.85f + 2 * padding).toInt()
-            }
-            Element.BlockCode.Type.MIDDLE ->{
-                fm.ascent = (fm.ascent * 0.85f).toInt()
-                fm.descent = (fm.descent * 0.85f).toInt()
-            }
-            Element.BlockCode.Type.SINGLE ->{
-                fm.ascent = (fm.ascent * 0.85f - 2 * padding).toInt()
-                fm.descent = (fm.descent * 0.85f + 2 * padding).toInt()
+        paint.forText {
+            when (type) {
+                Element.BlockCode.Type.START -> {
+                    fm.ascent = (paint.fontMetrics.ascent - 2 * padding).toInt()
+                    fm.descent = (paint.fontMetrics.descent).toInt()
+                }
+                Element.BlockCode.Type.END -> {
+                    fm.ascent = (paint.fontMetrics.ascent).toInt()
+                    fm.descent = (paint.fontMetrics.descent + 2 * padding).toInt()
+                }
+                Element.BlockCode.Type.MIDDLE -> {
+                    fm.ascent = (paint.fontMetrics.ascent).toInt()
+                    fm.descent = (paint.fontMetrics.descent).toInt()
+                }
+                Element.BlockCode.Type.SINGLE -> {
+                    fm.ascent = (paint.fontMetrics.ascent - 2 * padding).toInt()
+                    fm.descent = (paint.fontMetrics.descent + 2 * padding).toInt()
+                }
             }
         }
 
