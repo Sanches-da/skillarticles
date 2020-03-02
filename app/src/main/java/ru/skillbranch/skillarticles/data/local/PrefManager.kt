@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 
 class PrefManager(cont: Context): PreferenceManager(cont){
-    val preferences : SharedPreferences by lazy { getDefaultSharedPreferences(cont) }
+    val preferences : SharedPreferences by lazy { PreferenceManager(cont).sharedPreferences }
 
 
     fun clearAll(){

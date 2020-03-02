@@ -37,3 +37,12 @@ val Context.isNetworkAvailable: Boolean
             cm.activeNetworkInfo?.run { isConnectedOrConnecting } ?: false
         }
     }
+
+fun Context.attrValue(attrId: Int): Int{
+
+    val tv = TypedValue()
+    val a = this.obtainStyledAttributes(tv.data, intArrayOf(attrId))
+    val result = a.getColor(0,0)
+    a.recycle()
+    return result
+}
