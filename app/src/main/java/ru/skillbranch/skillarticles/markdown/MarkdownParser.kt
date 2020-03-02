@@ -328,7 +328,7 @@ object MarkdownParser {
 
                     val lines = text.lines()
                     for (ind in 0..lines.count().dec()){
-                        val line = lines[ind]
+                        val line = lines[ind]+"\n"
                         val subs = findElements(line)
                         val element = Element.BlockCode(
                             if (lines.count() == 1) Element.BlockCode.Type.SINGLE
@@ -348,10 +348,10 @@ object MarkdownParser {
 
                 //11 -> NUMERIC LIST
                 11 -> {
-                    val reg = "^\\d*".toRegex().find(string.subSequence(startIndex,endIndex))
+                    val reg = "^\\d*.".toRegex().find(string.subSequence(startIndex,endIndex))
 
                     val order = reg!!.value
-                    text = string.subSequence(startIndex.plus(order.length.plus(2)), endIndex)
+                    text = string.subSequence(startIndex.plus(order.length.plus(1)), endIndex)
 
                     val subs = findElements(text)
                     val element = Element.OrderedListItem(order, text, subs)

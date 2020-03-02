@@ -94,7 +94,7 @@ class BlockCodeSpan(
         }
 
         paint.forText {
-            canvas.drawText(text, start, end, x + padding, top.toFloat(), paint)
+            canvas.drawText(text, start, end, x + padding, y.toFloat(), paint)
         }
 
     }
