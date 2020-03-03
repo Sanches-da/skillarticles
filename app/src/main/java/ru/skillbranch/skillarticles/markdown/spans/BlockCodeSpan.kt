@@ -52,6 +52,7 @@ class BlockCodeSpan(
                         0f, 0f
                     )
 
+                    path.reset()
                     path.addRoundRect(rect, corners, Path.Direction.CW)
                     canvas.drawPath(path, paint)
                 }
@@ -69,6 +70,7 @@ class BlockCodeSpan(
                         cornerRadius, cornerRadius,
                         cornerRadius, cornerRadius
                     )
+                    path.reset()
                     path.addRoundRect(rect, corners, Path.Direction.CW)
                     canvas.drawPath(path, paint)
                 }
@@ -106,26 +108,27 @@ class BlockCodeSpan(
         end: Int,
         fm: Paint.FontMetricsInt?
     ): Int {
-        fm ?: return 0
+        val originAscent = (paint.fontMetrics?.ascent ?: -30f) * 0.85f
+        val originDescent = (paint.fontMetrics?.descent ?: 10f) * 0.85f
 
 
         paint.forText {
             when (type) {
                 Element.BlockCode.Type.START -> {
-                    fm.ascent = (paint.fontMetrics.ascent - 2 * padding).toInt()
-                    fm.descent = (paint.fontMetrics.descent).toInt()
+                    fm?.ascent = (originAscent - 2 * padding).toInt()
+                    fm?.descent = (originDescent).toInt()
                 }
                 Element.BlockCode.Type.END -> {
-                    fm.ascent = (paint.fontMetrics.ascent).toInt()
-                    fm.descent = (paint.fontMetrics.descent + 2 * padding).toInt()
+                    fm?.ascent = (originAscent).toInt()
+                    fm?.descent = (originDescent + 2 * padding).toInt()
                 }
                 Element.BlockCode.Type.MIDDLE -> {
-                    fm.ascent = (paint.fontMetrics.ascent).toInt()
-                    fm.descent = (paint.fontMetrics.descent).toInt()
+                    fm?.ascent = (originAscent).toInt()
+                    fm?.descent = (originDescent).toInt()
                 }
                 Element.BlockCode.Type.SINGLE -> {
-                    fm.ascent = (paint.fontMetrics.ascent - 2 * padding).toInt()
-                    fm.descent = (paint.fontMetrics.descent + 2 * padding).toInt()
+                    fm?.ascent = (originAscent - 2 * padding).toInt()
+                    fm?.descent = (originDescent + 2 * padding).toInt()
                 }
             }
         }
