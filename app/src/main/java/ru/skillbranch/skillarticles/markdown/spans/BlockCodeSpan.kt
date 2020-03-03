@@ -75,9 +75,9 @@ class BlockCodeSpan(
                 Element.BlockCode.Type.MIDDLE -> {
                     rect.set(
                         0f,
-                        top + padding,
+                        top.toFloat(),
                         canvas.width.toFloat(),
-                        bottom - padding
+                        bottom.toFloat()
                     )
                     canvas.drawRect(rect, paint)
                 }

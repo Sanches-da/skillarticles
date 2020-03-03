@@ -348,7 +348,7 @@ object MarkdownParser {
 
                 //11 -> NUMERIC LIST
                 11 -> {
-                    val reg = "^\\d*.".toRegex().find(string.subSequence(startIndex,endIndex))
+                    val reg = "^\\d*\\.".toRegex().find(string.subSequence(startIndex,endIndex))
 
                     val order = reg!!.value
                     text = string.subSequence(startIndex.plus(order.length.plus(1)), endIndex)
