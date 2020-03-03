@@ -328,7 +328,7 @@ object MarkdownParser {
 
                     val lines = text.lines()
                     for (ind in 0..lines.count().dec()){
-                        val line = lines[ind]+ if (ind == lines.count()) "" else "\n"
+                        val line = lines[ind]+ if (ind == lines.count().dec()) "" else "\n"
                         val subs = findElements(line)
                         val element = Element.BlockCode(
                             if (lines.count() == 1) Element.BlockCode.Type.SINGLE
