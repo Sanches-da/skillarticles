@@ -8,3 +8,7 @@ fun View.setMarginOptionally(left: Int = 0, top: Int = 0, right: Int = 0, bottom
     lp.setMargins(left, top, right, bottom)
     this.layoutParams = lp
 }
+
+fun View.setPaddingOptionally(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0){
+    this.setPadding(left, top, right, bottom)
+}
