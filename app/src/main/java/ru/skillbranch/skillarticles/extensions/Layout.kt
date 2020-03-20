@@ -17,5 +17,5 @@ fun Layout.getLineBottomWithoutPadding(line : Int): Int{
 fun Layout.getLineBottomWithoutSpacing(line : Int): Int{
     val isLastLine = (line == lineCount.dec())
     val hasSpacing = (spacingAdd != 0f)
-    return this.getLineBottom(line) + spacingAdd.toInt() * if (isLastLine || !hasSpacing) 1 else -1
+    return this.getLineBottom(line) + spacingAdd.toInt() * if (isLastLine || !hasSpacing) 0 else -1
 }

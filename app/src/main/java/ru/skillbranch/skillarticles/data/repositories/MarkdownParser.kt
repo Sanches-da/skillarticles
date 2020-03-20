@@ -41,7 +41,7 @@ object MarkdownParser {
                 is Element.BlockCode -> acc.add(MarkdownElement.Scroll(element, last?.bounds?.second ?: 0))
                 else -> {
                     if (last is MarkdownElement.Text) last.elements.add(element)
-                    else  acc.add(MarkdownElement.Text(mutableListOf(), last?.bounds?.second ?: 0))
+                    else  acc.add(MarkdownElement.Text(mutableListOf(element), last?.bounds?.second ?: 0))
                 }
             }
             acc

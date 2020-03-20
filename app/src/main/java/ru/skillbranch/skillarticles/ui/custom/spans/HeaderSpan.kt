@@ -103,7 +103,7 @@ class HeaderSpan constructor(
     ) {
         if ((level == 1 || level == 2) && (text as Spanned).getSpanEnd(this) == lineEnd){
             paint.forLine {
-                val lh = (paint.ascent() - paint.descent()) * sizes.getOrElse(level){1f}
+                val lh = (paint.descent() - paint.ascent()) * sizes.getOrElse(level){1f}
                 val lineOffset = lineBaseline + lh * linePadding
 
                 canvas.drawLine(

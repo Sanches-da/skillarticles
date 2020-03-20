@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.text.Layout
 import android.text.Spanned
+import androidx.annotation.VisibleForTesting
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.alpha
 import androidx.core.text.getSpans
@@ -18,8 +19,12 @@ import ru.skillbranch.skillarticles.ui.custom.spans.SearchSpan
 
 class SearchBgHelper(
     context: Context,
-    private val focusListener: (Int, Int) -> Unit
+    private val focusListener: ((Int, Int) -> Unit)? = null,
+    mockDrawable: Drawable? = null
 ) {
+
+    constructor(context: Context, focusListener: ((Int, Int) -> Unit)? = null) : this(context, focusListener, null)
+
     private val padding: Int  = context.dpToIntPx(4)//4dp
     private val borderWidth: Int  = context.dpToIntPx(1)//1dp
     private val radius: Float = context.dpToPx(8)//8dp
@@ -28,7 +33,7 @@ class SearchBgHelper(
     private val alphaColor: Int = ColorUtils.setAlphaComponent(secondaryColor, 160)//colorSecondary with 160 alpha
 
     private val drawable: Drawable by lazy {
-        GradientDrawable().apply{
+        mockDrawable ?: GradientDrawable().apply{
             shape = GradientDrawable.RECTANGLE
             cornerRadii = FloatArray(8).apply{fill(radius, 0, size)}
             color = ColorStateList.valueOf(alphaColor)
@@ -99,7 +104,7 @@ class SearchBgHelper(
             endLine = layout.getLineForOffset(spanEnd)
 
             if (it is SearchFocusSpan){
-                focusListener.invoke(layout.getLineTop(startLine), layout.getLineBottom(startLine))
+                focusListener?.invoke(layout.getLineTop(startLine), layout.getLineBottom(startLine))
             }
 
             headerSpans = text.getSpans(spanStart, spanEnd, HeaderSpan::class.java)
