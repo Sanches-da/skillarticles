@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.os.Parcel
 import android.os.Parcelable
 import android.text.Selection
 import android.text.Spannable
@@ -22,7 +23,7 @@ import ru.skillbranch.skillarticles.extensions.attrValue
 import ru.skillbranch.skillarticles.extensions.dpToIntPx
 import ru.skillbranch.skillarticles.extensions.dpToPx
 import ru.skillbranch.skillarticles.extensions.setPaddingOptionally
-import ru.skillbranch.skillarticles.ui.custom.SavedState
+import ru.skillbranch.skillarticles.ui.custom.markdown.SavedState
 
 @SuppressLint("ViewConstructor")
 class MarkdownCodeView private constructor(
@@ -210,7 +211,8 @@ class MarkdownCodeView private constructor(
     }
 
     override fun onSaveInstanceState(): Parcelable? {
-        val savedState = SavedState(super.onSaveInstanceState())
+        val savedState =
+            SavedState(super.onSaveInstanceState())
         savedState.ssIsManual = isManual
         savedState.ssIsDark = isDark
         return savedState
@@ -246,4 +248,24 @@ class MarkdownCodeView private constructor(
     }
 
 
+}
+
+private class SavedState: View.BaseSavedState,
+    Parcelable {
+    var ssIsManual = false
+    var ssIsDark = false
+
+    constructor(superState: Parcelable?) : super(superState)
+    constructor(source: Parcel) : super(source) {
+        ssIsDark = (source.readInt() == 1)
+        ssIsManual = (source.readInt() == 1)
+    }
+
+    override fun writeToParcel(out: Parcel, flags: Int) {
+        super.writeToParcel(out, flags)
+        out.writeInt(if(ssIsManual) 1 else 0)
+        out.writeInt(if(ssIsDark) 1 else 0)
+    }
+
+    override fun describeContents(): Int = 0
 }

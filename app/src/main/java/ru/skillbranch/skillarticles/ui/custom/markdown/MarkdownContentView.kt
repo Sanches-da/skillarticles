@@ -6,13 +6,11 @@ import android.util.AttributeSet
 import android.util.SparseArray
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import ru.skillbranch.skillarticles.data.repositories.MarkdownElement
 import ru.skillbranch.skillarticles.extensions.dpToIntPx
 import ru.skillbranch.skillarticles.extensions.groupByBounds
 import ru.skillbranch.skillarticles.extensions.setPaddingOptionally
-import ru.skillbranch.skillarticles.ui.custom.SavedState
 import kotlin.properties.Delegates
 
 class MarkdownContentView @JvmOverloads constructor(
@@ -77,18 +75,6 @@ class MarkdownContentView @JvmOverloads constructor(
         }
     }
 
-//    override fun onSaveInstanceState(): Parcelable? {
-//        val savedState = SavedState(super.onSaveInstanceState())
-//        savedState.ssIds = ids
-//        return savedState
-//    }
-//
-//    override fun onRestoreInstanceState(state: Parcelable?) {
-//        super.onRestoreInstanceState(state)
-//        if (state is SavedState){
-//            ids = state.ssIds
-//        }
-//    }
 
     override fun dispatchRestoreInstanceState(container: SparseArray<Parcelable>?) {
         super.dispatchRestoreInstanceState(container)
