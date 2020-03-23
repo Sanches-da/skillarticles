@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.VisibleForTesting
@@ -23,7 +22,6 @@ import ru.skillbranch.skillarticles.extensions.attrValue
 import ru.skillbranch.skillarticles.extensions.dpToIntPx
 import ru.skillbranch.skillarticles.extensions.dpToPx
 import ru.skillbranch.skillarticles.extensions.setPaddingOptionally
-import ru.skillbranch.skillarticles.ui.custom.markdown.SavedState
 
 @SuppressLint("ViewConstructor")
 class MarkdownCodeView private constructor(
@@ -248,24 +246,23 @@ class MarkdownCodeView private constructor(
     }
 
 
+    private class SavedState: BaseSavedState,Parcelable {
+        var ssIsManual = false
+        var ssIsDark = false
+
+        constructor(superState: Parcelable?) : super(superState)
+        constructor(source: Parcel) : super(source) {
+            ssIsDark = (source.readInt() == 1)
+            ssIsManual = (source.readInt() == 1)
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(if(ssIsManual) 1 else 0)
+            out.writeInt(if(ssIsDark) 1 else 0)
+        }
+
+        override fun describeContents(): Int = 0
+    }
 }
 
-private class SavedState: View.BaseSavedState,
-    Parcelable {
-    var ssIsManual = false
-    var ssIsDark = false
-
-    constructor(superState: Parcelable?) : super(superState)
-    constructor(source: Parcel) : super(source) {
-        ssIsDark = (source.readInt() == 1)
-        ssIsManual = (source.readInt() == 1)
-    }
-
-    override fun writeToParcel(out: Parcel, flags: Int) {
-        super.writeToParcel(out, flags)
-        out.writeInt(if(ssIsManual) 1 else 0)
-        out.writeInt(if(ssIsDark) 1 else 0)
-    }
-
-    override fun describeContents(): Int = 0
-}
