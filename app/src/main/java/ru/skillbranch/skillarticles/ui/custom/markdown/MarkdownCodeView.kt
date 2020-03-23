@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.os.Parcelable
 import android.text.Selection
 import android.text.Spannable
 import android.view.View
@@ -21,6 +22,7 @@ import ru.skillbranch.skillarticles.extensions.attrValue
 import ru.skillbranch.skillarticles.extensions.dpToIntPx
 import ru.skillbranch.skillarticles.extensions.dpToPx
 import ru.skillbranch.skillarticles.extensions.setPaddingOptionally
+import ru.skillbranch.skillarticles.ui.custom.SavedState
 
 @SuppressLint("ViewConstructor")
 class MarkdownCodeView private constructor(
@@ -207,6 +209,22 @@ class MarkdownCodeView private constructor(
         usedHeight += sv_scroll.measuredHeight + paddingBottom
     }
 
+    override fun onSaveInstanceState(): Parcelable? {
+        val savedState = SavedState(super.onSaveInstanceState())
+        savedState.ssIsManual = isManual
+        savedState.ssIsDark = isDark
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
+        if (state is SavedState){
+            isManual = state.ssIsManual
+            isDark = state.ssIsDark
+            applyColors()
+        }
+    }
+
     override fun renderSearchPosition(searchPosition: Pair<Int, Int>, offset: Int) {
         super.renderSearchPosition(searchPosition, offset)
 
@@ -226,4 +244,6 @@ class MarkdownCodeView private constructor(
         (background as GradientDrawable).color = ColorStateList.valueOf(bgColor)
         tv_codeView.setTextColor(textColor)
     }
+
+
 }

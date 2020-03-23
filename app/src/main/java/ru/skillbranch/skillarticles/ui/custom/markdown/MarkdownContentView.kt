@@ -1,14 +1,18 @@
 package ru.skillbranch.skillarticles.ui.custom.markdown
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import ru.skillbranch.skillarticles.data.repositories.MarkdownElement
 import ru.skillbranch.skillarticles.extensions.dpToIntPx
 import ru.skillbranch.skillarticles.extensions.groupByBounds
 import ru.skillbranch.skillarticles.extensions.setPaddingOptionally
+import ru.skillbranch.skillarticles.ui.custom.SavedState
 import kotlin.properties.Delegates
 
 class MarkdownContentView @JvmOverloads constructor(
@@ -73,8 +77,27 @@ class MarkdownContentView @JvmOverloads constructor(
         }
     }
 
+//    override fun onSaveInstanceState(): Parcelable? {
+//        val savedState = SavedState(super.onSaveInstanceState())
+//        savedState.ssIds = ids
+//        return savedState
+//    }
+//
+//    override fun onRestoreInstanceState(state: Parcelable?) {
+//        super.onRestoreInstanceState(state)
+//        if (state is SavedState){
+//            ids = state.ssIds
+//        }
+//    }
+
+    override fun dispatchRestoreInstanceState(container: SparseArray<Parcelable>?) {
+        super.dispatchRestoreInstanceState(container)
+    }
+
     fun setContent(content: List<MarkdownElement>) {
         elements = content
+        var counter = 0
+        var idPrefix: Int = 55500000
         content.forEach{
             when (it){
                 is MarkdownElement.Text -> {
@@ -88,7 +111,11 @@ class MarkdownContentView @JvmOverloads constructor(
                         .run{
                             tv.setText(this, TextView.BufferType.SPANNABLE)
                         }
-
+                    tv.id = idPrefix+counter
+//                    tv.id = ids.getOrElse(counter){
+//                        ids.add(ViewCompat.generateViewId())
+//                        ids[counter]
+//                    }
                     addView(tv)
                 }
 
@@ -100,18 +127,29 @@ class MarkdownContentView @JvmOverloads constructor(
                         it.image.text,
                         it.image.alt
                     )
+                    iv.id = idPrefix+counter
+//                    iv.id = ids.getOrElse(counter){
+//                        ids.add(ViewCompat.generateViewId())
+//                        ids[counter]
+//                    }
                     addView(iv)
                 }
 
                 is MarkdownElement.Scroll -> {
-                    val iv = MarkdownCodeView(
+                    val sv = MarkdownCodeView(
                         context,
                         textSize,
                         it.blockCode.text
                     )
-                    addView(iv)
+                    sv.id = idPrefix+counter
+//                    sv.id = ids.getOrElse(counter){
+//                        ids.add(ViewCompat.generateViewId())
+//                        ids[counter]
+//                    }
+                    addView(sv)
                 }
             }
+            counter++
         }
     }
 
