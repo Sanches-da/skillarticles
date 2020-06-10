@@ -73,6 +73,7 @@ class MarkdownImageView private constructor(
     private var lineColor: Int = context.getColor(R.color.color_divider)//R.color.color_divider
 
     //for draw object allocation
+    private var aspectRatio = 0f
     private var linePositionY: Float = 0f
     private val linePaint = Paint (Paint.ANTI_ALIAS_FLAG).apply {
         color = lineColor
@@ -196,12 +197,14 @@ class MarkdownImageView private constructor(
     override fun onSaveInstanceState(): Parcelable? {
         val savedState = SavedState(super.onSaveInstanceState())
         savedState.ssIsAltVisible = tv_alt?.isVisible ?: false
+        savedState.ssAspectRatio = (iv_image.width.toFloat()/iv_image.height)
         return savedState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(state)
         if (state is SavedState && tv_alt != null){
+            aspectRatio = state.ssAspectRatio;
             tv_alt?.isVisible = state.ssIsAltVisible
         }
     }
@@ -258,6 +261,7 @@ class MarkdownImageView private constructor(
     private class SavedState: View.BaseSavedState,
         Parcelable {
         var ssIsAltVisible = false
+        var ssAspectRatio = 1.75f
 
         constructor(superState: Parcelable?) : super(superState)
         constructor(source: Parcel) : super(source) {

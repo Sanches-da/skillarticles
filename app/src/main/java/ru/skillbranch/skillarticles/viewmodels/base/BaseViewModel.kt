@@ -4,10 +4,18 @@ import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import androidx.navigation.Navigator
 
-abstract class BaseViewModel<T : IViewModelState>(initState: T) : ViewModel() {
+abstract class BaseViewModel<T : IViewModelState>(
+    private val handleState: SavedStateHandle,
+    initState: T
+) : ViewModel() {
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     val notifications = MutableLiveData<Event<Notify>>()
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    val navigation = MutableLiveData<Event<NavigationCommand>>()
 
     /***
      * Инициализация начального состояния аргументом конструктоа, и объявления состояния как
@@ -48,6 +56,15 @@ abstract class BaseViewModel<T : IViewModelState>(initState: T) : ViewModel() {
     }
 
     /***
+     * функция для навигации пользователя (переход обрабатывается только один раз)
+     * соответсвенно при изменении конфигурации и пересоздании Activity навигация не будет вызвано
+     * повторно
+     */
+    open fun navigate(command: NavigationCommand){
+        navigation.value = Event(command)
+    }
+
+    /***
      * более компактная форма записи observe() метода LiveData принимает последним аргумент лямбда
      * выражение обрабатывающее изменение текущего стостояния
      */
@@ -66,6 +83,16 @@ abstract class BaseViewModel<T : IViewModelState>(initState: T) : ViewModel() {
     }
 
     /***
+     * более компактная форма записи observe() метода LiveData вызывает лямбда выражение обработчик
+     * только в том случае если навигация не была уже обработанно ранее,
+     * реализует данное поведение с помощью EventObserver
+     */
+    fun observeNavigation(owner: LifecycleOwner, onNavigate: (command: NavigationCommand) -> Unit) {
+        navigation.observe(owner,
+            EventObserver { onNavigate(it) })
+    }
+
+    /***
      * функция принимает источник данных и лямбда выражение обрабатывающее поступающие данные источника
      * лямбда принимает новые данные и текущее состояние ViewModel в качестве аргументов,
      * изменяет его и возвращает модифицированное состояние, которое устанавливается как текущее
@@ -79,13 +106,13 @@ abstract class BaseViewModel<T : IViewModelState>(initState: T) : ViewModel() {
         }
     }
 
-    fun saveState(outState: Bundle){
-        currentState.save(outState)
+    fun saveState(){
+        currentState.save(handleState)
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun restoreState(savedState:Bundle){
-        state.value = currentState.restore(savedState) as T
+    fun restoreState(){
+        state.value = currentState.restore(handleState) as T
     }
 
 }
@@ -137,4 +164,21 @@ sealed class Notify() {
         val errLabel: String?,
         val errHandler: (() -> Unit)?
     ) : Notify()
+}
+
+sealed class NavigationCommand() {
+    data class To(
+        val destination: Int,
+        val args: Bundle? = null,
+        val options: NavOptions? = null,
+        val extras: Navigator.Extras? = null
+    ): NavigationCommand()
+
+    data class StartLogin(
+        val privateDestination: Int? = null
+    ): NavigationCommand()
+
+    data class FinishLogin(
+        val privateDestination: Int? = null
+    ): NavigationCommand()
 }
