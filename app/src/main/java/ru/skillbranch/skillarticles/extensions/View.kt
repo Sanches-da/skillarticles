@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.get
 import androidx.navigation.NavDestination
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -19,16 +20,15 @@ fun View.setPaddingOptionally(left: Int = 0, top: Int = 0, right: Int = 0, botto
 }
 
 fun BottomNavigationView.selectDestination(destination: NavDestination) {
-    val menu = this[0] as BottomNavigationMenuView
-    if (this.selectedItemId != destination.id && menu.children.find { it.id == destination.id } != null) {
-        this.selectedItemId = destination.id
-    }
-
+    val menu = this.menu
+    val item = menu.findItem(destination.id)
+    item.isChecked = true
 }
 
 fun BottomNavigationView.selectItem(itemId: Int?) {
-    val menu = this[0] as BottomNavigationMenuView
+    val menu = this.menu
     if (itemId != null) {
-        this.selectedItemId = itemId
+        val item = menu.findItem(itemId)
+        item.isChecked = true
     }
 }
