@@ -1,5 +1,6 @@
 package ru.skillbranch.skillarticles.extensions
 
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -21,14 +22,14 @@ fun View.setPaddingOptionally(left: Int = 0, top: Int = 0, right: Int = 0, botto
 
 fun BottomNavigationView.selectDestination(destination: NavDestination) {
     val menu = this.menu
-    val item = menu.findItem(destination.id)
-    item.isChecked = true
+    val item: MenuItem? = menu.findItem(destination.id)
+    item?.isChecked = true
 }
 
 fun BottomNavigationView.selectItem(itemId: Int?) {
     val menu = this.menu
     if (itemId != null) {
-        val item = menu.findItem(itemId)
-        item.isChecked = true
+        val item: MenuItem? = menu.findItem(itemId)
+        item?.isChecked = true
     }
 }
